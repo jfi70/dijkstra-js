@@ -36,7 +36,7 @@ class Vertex {
     }
 }
 
-const vertices = [... new Array(6)].map( (c,i) => { return new Vertex(i+1)});
+const vertices = [... new Array(6)].map( (c,i) => { return new Vertex(i)});
 
 // distances between the nodes
 const graph = [
@@ -49,16 +49,12 @@ const graph = [
     [14,0, 2 ,0,9,0], // 6
 ];
 
-const startId = 1;
-const endId = 5;
 
-const startIndex = startId - 1;
-const endIndex = endId - 1;
+const startIndex = 0;
+const endIndex = 4;
 let currentIndex = startIndex;
-let initialDistance = 0;
 
-vertices[currentIndex].distance = 0;
-
+vertices[currentIndex].distance = 0; // 
 while( currentIndex !== endIndex) {
     graph[currentIndex].forEach((distance, index) => {
         // update distances 
@@ -73,19 +69,22 @@ while( currentIndex !== endIndex) {
     });
     vertices[currentIndex].tickOff(); // erledigt
     //
-    currentIndex = (vertices.filter(e => e.distance < Number.POSITIVE_INFINITY).filter( e => e.visited === false).reduce((p, c, i) => {
-        if (c.distance < p.distance) {
-            return c;
-        }
-        else {
-            return p;
-        }
-
-    }, { distance: Number.POSITIVE_INFINITY })).id -1;
-    //console.log("next node ",currentIndex+1);        
+    currentIndex = vertices.filter(e => !e.visited).filter(e => e.distance < Number.POSITIVE_INFINITY).reduce((p, c) => {
+        return c.distance < p.distance ? c : p;
+    }, { distance: Number.POSITIVE_INFINITY }).id ;
 }
 
-vertices.map(v => { return [ v.id, v.predecessor + 1 ] }).forEach(v => { console.log(v) })
+vertices.map(v => { return [v.id, v.predecessor] }).forEach(v => console.log(v));
+
+currentIndex = endIndex;
+let path = "";
+while (currentIndex !== startIndex) {
+    path = `${path} ${ path !== "" ? "<-":""} ${currentIndex}`;
+    currentIndex = vertices[currentIndex].predecessor;
+}
+path = `F:${path} <- ${currentIndex} :S`;
+console.log(path);
+
 
 
 
