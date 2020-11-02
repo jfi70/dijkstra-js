@@ -1,40 +1,4 @@
-
-class Vertex {
-    constructor(id) {
-        this.distance_ = Number.POSITIVE_INFINITY;
-        this.predecessor_ = null;
-        this.visited_ = false;
-        this.id_ = id;
-    }
-
-    get id() {
-        return this.id_;
-    }
-
-    set distance(newValue) {
-        this.distance_ = newValue;
-    }
-
-    set predecessor(newValue) {
-        this.predecessor_ = newValue;
-    }
-
-    tickOff() {
-        this.visited_ = true;
-    }
-
-    get visited() {
-        return this.visited_;
-    }
-
-    get predecessor() {
-        return this.predecessor_;
-    }
-
-    get distance() {
-        return this.distance_;
-    }
-}
+import { Vertex } from "./vertex.js";
 
 const vertices = [... new Array(6)].map( (c,i) => { return new Vertex(i)});
 
